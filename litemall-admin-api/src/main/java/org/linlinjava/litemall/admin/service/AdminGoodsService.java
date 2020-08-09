@@ -35,8 +35,10 @@ public class AdminGoodsService {
     private LitemallGoodsProductService productService;
     @Autowired
     private LitemallCategoryService categoryService;
+
     @Autowired
-    private LitemallBrandService brandService;
+    private LitemallSupplierService supplierService;
+
     @Autowired
     private LitemallCartService cartService;
     @Autowired
@@ -58,13 +60,13 @@ public class AdminGoodsService {
         if (StringUtils.isEmpty(goodsSn)) {
             return ResponseUtil.badArgument();
         }
-        // 品牌商可以不设置，如果设置则需要验证品牌商存在
-        Integer brandId = goods.getBrandId();
-        if (brandId != null && brandId != 0) {
-            if (brandService.findById(brandId) == null) {
-                return ResponseUtil.badArgumentValue();
-            }
-        }
+        // 供应商可以不设置，如果设置则需要验证是否存在，TODO：mock数据兼容考虑，暂不校验
+//        Integer supplierId = goods.suppl
+//        if (brandId != null && brandId != 0) {
+//            if (brandService.findById(brandId) == null) {
+//                return ResponseUtil.badArgumentValue();
+//            }
+//        }
         // 分类可以不设置，如果设置则需要验证分类存在
         Integer categoryId = goods.getCategoryId();
         if (categoryId != null && categoryId != 0) {
@@ -286,8 +288,50 @@ public class AdminGoodsService {
         }
         return ResponseUtil.ok();
     }
+//
+//    public Object list2() {
+//        // http://element-cn.eleme.io/#/zh-CN/component/cascader
+//        // 管理员设置“所属分类”
+//        List<LitemallCategory> l1CatList = categoryService.queryL1();
+//        List<CatVo> categoryList = new ArrayList<>(l1CatList.size());
+//
+//        for (LitemallCategory l1 : l1CatList) {
+//            CatVo l1CatVo = new CatVo();
+//            l1CatVo.setValue(l1.getId());
+//            l1CatVo.setLabel(l1.getName());
+//
+//            List<LitemallCategory> l2CatList = categoryService.queryByPid(l1.getId());
+//            List<CatVo> children = new ArrayList<>(l2CatList.size());
+//            for (LitemallCategory l2 : l2CatList) {
+//                CatVo l2CatVo = new CatVo();
+//                l2CatVo.setValue(l2.getId());
+//                l2CatVo.setLabel(l2.getName());
+//                children.add(l2CatVo);
+//            }
+//            l1CatVo.setChildren(children);
+//
+//            categoryList.add(l1CatVo);
+//        }
+//
+//        // http://element-cn.eleme.io/#/zh-CN/component/select
+//        // 管理员设置“所属品牌商”
+//        List<LitemallBrand> list = brandService.all();
+//        List<Map<String, Object>> brandList = new ArrayList<>(l1CatList.size());
+//        for (LitemallBrand brand : list) {
+//            Map<String, Object> b = new HashMap<>(2);
+//            b.put("value", brand.getId());
+//            b.put("label", brand.getName());
+//            brandList.add(b);
+//        }
+//
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("categoryList", categoryList);
+//        data.put("brandList", brandList);
+//        return ResponseUtil.ok(data);
+//    }
 
-    public Object list2() {
+
+    public Object list3() {
         // http://element-cn.eleme.io/#/zh-CN/component/cascader
         // 管理员设置“所属分类”
         List<LitemallCategory> l1CatList = categoryService.queryL1();
@@ -313,20 +357,21 @@ public class AdminGoodsService {
 
         // http://element-cn.eleme.io/#/zh-CN/component/select
         // 管理员设置“所属品牌商”
-        List<LitemallBrand> list = brandService.all();
-        List<Map<String, Object>> brandList = new ArrayList<>(l1CatList.size());
-        for (LitemallBrand brand : list) {
+        List<LitemallSupplier> list = supplierService.all();
+        List<Map<String, Object>> supplierList = new ArrayList<>(l1CatList.size());
+        for (LitemallSupplier supplier : list) {
             Map<String, Object> b = new HashMap<>(2);
-            b.put("value", brand.getId());
-            b.put("label", brand.getName());
-            brandList.add(b);
+            b.put("value", supplier.getId());
+            b.put("label", supplier.getName());
+            supplierList.add(b);
         }
 
         Map<String, Object> data = new HashMap<>();
         data.put("categoryList", categoryList);
-        data.put("brandList", brandList);
+        data.put("supplierList", supplierList);
         return ResponseUtil.ok(data);
     }
+
 
     public Object detail(Integer id) {
         LitemallGoods goods = goodsService.findById(id);

@@ -47,9 +47,14 @@ public class AdminGoodsController {
         return adminGoodsService.list(goodsId, goodsSn, name, page, limit, sort, order);
     }
 
-    @GetMapping("/catAndBrand")
-    public Object list2() {
-        return adminGoodsService.list2();
+//    @GetMapping("/catAndBrand")
+//    public Object list2() {
+//        return adminGoodsService.list2();
+//    }
+
+    @GetMapping("/catAndSupplier")
+    public Object list3() {
+        return adminGoodsService.list3();
     }
 
     /**

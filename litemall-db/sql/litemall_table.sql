@@ -4,6 +4,7 @@
 -- ------------------------------------------------------
 -- Server version	5.7.21-log
 
+use litemall;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -116,24 +117,42 @@ CREATE TABLE `litemall_aftersale` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `litemall_brand`
+-- Table structure for table `litemall_supplier_platform`
 --
 
-DROP TABLE IF EXISTS `litemall_brand`;
+DROP TABLE IF EXISTS `litemall_supplier_platform`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `litemall_brand` (
+CREATE TABLE `litemall_supplier_platform` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商名称',
-  `desc` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商简介',
-  `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商页的品牌商图片',
-  `sort_order` tinyint(3) DEFAULT '50',
-  `floor_price` decimal(10,2) DEFAULT '0.00' COMMENT '品牌商的商品低价，仅用于页面展示',
+  `name` varchar(255) NOT NULL DEFAULT '直营' COMMENT '供应商平台名称',
+  `desc` varchar(512) NOT NULL DEFAULT '' COMMENT '平台备注',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1046003 DEFAULT CHARSET=utf8mb4 COMMENT='品牌商表';
+) ENGINE=InnoDB AUTO_INCREMENT=1046003 DEFAULT CHARSET=utf8mb4 COMMENT='供应商平台表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `litemall_supplier`
+--
+
+DROP TABLE IF EXISTS `litemall_supplier`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `litemall_supplier` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '供应商名称',
+  `supplier_platform_id` int(11) NOT NULL DEFAULT '0' COMMENT '供应商所属平台',
+  `desc` varchar(512) NOT NULL DEFAULT '' COMMENT '供应商备注',
+  `floor_price` decimal(10,2) DEFAULT '0.00' COMMENT '供应商进价',
+  `act_price` decimal(10,2) DEFAULT '0.00' COMMENT '供应商活动价',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1046003 DEFAULT CHARSET=utf8mb4 COMMENT='供应商表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,7 +363,7 @@ CREATE TABLE `litemall_goods` (
   `goods_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
   `name` varchar(127) NOT NULL DEFAULT '' COMMENT '商品名称',
   `category_id` int(11) DEFAULT '0' COMMENT '商品所属类目ID',
-  `brand_id` int(11) DEFAULT '0',
+  `supplier_id` int(11) DEFAULT '0' COMMENT '所属供应商ID',
   `gallery` varchar(1023) DEFAULT NULL COMMENT '商品宣传图片列表，采用JSON数组格式',
   `keywords` varchar(255) DEFAULT '' COMMENT '商品关键字，采用逗号间隔',
   `brief` varchar(255) DEFAULT '' COMMENT '商品简介',
@@ -364,7 +383,7 @@ CREATE TABLE `litemall_goods` (
   PRIMARY KEY (`id`),
   KEY `goods_sn` (`goods_sn`),
   KEY `cat_id` (`category_id`),
-  KEY `brand_id` (`brand_id`),
+  KEY `supplier_id` (`supplier_id`),
   KEY `sort_order` (`sort_order`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1181004 DEFAULT CHARSET=utf8mb4 COMMENT='商品基本信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;

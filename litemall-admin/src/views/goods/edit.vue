@@ -84,9 +84,9 @@
           <el-cascader v-model="categoryIds" :options="categoryList" clearable expand-trigger="hover" @change="handleCategoryChange" />
         </el-form-item>
 
-        <el-form-item label="所属品牌商">
-          <el-select v-model="goods.brandId" clearable>
-            <el-option v-for="item in brandList" :key="item.value" :label="item.label" :value="item.value" />
+        <el-form-item label="所属供应商">
+          <el-select v-model="goods.supplierId" clearable>
+            <el-option v-for="item in supplierList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
 
@@ -291,7 +291,7 @@
 </style>
 
 <script>
-import { detailGoods, editGoods, listCatAndBrand } from '@/api/goods'
+import { detailGoods, editGoods, listCatAndSupplier } from '@/api/goods'
 import { createStorage, uploadPath } from '@/api/storage'
 import Editor from '@tinymce/tinymce-vue'
 import { MessageBox } from 'element-ui'
@@ -308,7 +308,7 @@ export default {
       keywords: [],
       galleryFileList: [],
       categoryList: [],
-      brandList: [],
+      supplierList: [],
       categoryIds: [],
       goods: { gallery: [] },
       specVisiable: false,
@@ -387,8 +387,8 @@ export default {
       detailGoods(goodsId).then(response => {
         this.goods = response.data.data.goods
         // 稍微调整一下前后端不一致
-        if (this.goods.brandId === 0) {
-          this.goods.brandId = null
+        if (this.goods.supplierId === 0) {
+          this.goods.supplierId = null
         }
         if (this.goods.keywords === '') {
           this.goods.keywords = null
@@ -410,9 +410,9 @@ export default {
         }
       })
 
-      listCatAndBrand().then(response => {
+      listCatAndSupplier().then(response => {
         this.categoryList = response.data.data.categoryList
-        this.brandList = response.data.data.brandList
+        this.supplierList = response.data.data.supplierList
       })
     },
     handleCategoryChange(value) {

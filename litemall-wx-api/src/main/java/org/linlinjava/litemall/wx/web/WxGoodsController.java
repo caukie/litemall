@@ -106,17 +106,17 @@ public class WxGoodsController {
 		// 商品问题，这里是一些通用问题
 		Callable<List> issueCallable = () -> goodsIssueService.querySelective("", 1, 4, "", "");
 
-		// 商品品牌商
-		Callable<LitemallBrand> brandCallable = ()->{
-			Integer brandId = info.getBrandId();
-			LitemallBrand brand;
-			if (brandId == 0) {
-				brand = new LitemallBrand();
-			} else {
-				brand = brandService.findById(info.getBrandId());
-			}
-			return brand;
-		};
+		// 商品品牌商，后续没有这个概念，不暴露
+//		Callable<LitemallBrand> brandCallable = ()->{
+//			Integer brandId = info.getBrandId();
+//			LitemallBrand brand;
+//			if (brandId == 0) {
+//				brand = new LitemallBrand();
+//			} else {
+//				brand = brandService.findById(info.getBrandId());
+//			}
+//			return brand;
+//		};
 
 		// 评论
 		Callable<Map> commentsCallable = () -> {
@@ -164,7 +164,7 @@ public class WxGoodsController {
 		FutureTask<List> productListCallableTask = new FutureTask<>(productListCallable);
 		FutureTask<List> issueCallableTask = new FutureTask<>(issueCallable);
 		FutureTask<Map> commentsCallableTsk = new FutureTask<>(commentsCallable);
-		FutureTask<LitemallBrand> brandCallableTask = new FutureTask<>(brandCallable);
+		//FutureTask<LitemallBrand> brandCallableTask = new FutureTask<>(brandCallable);
         FutureTask<List> grouponRulesCallableTask = new FutureTask<>(grouponRulesCallable);
 
 		executorService.submit(goodsAttributeListTask);
@@ -172,7 +172,7 @@ public class WxGoodsController {
 		executorService.submit(productListCallableTask);
 		executorService.submit(issueCallableTask);
 		executorService.submit(commentsCallableTsk);
-		executorService.submit(brandCallableTask);
+		//executorService.submit(brandCallableTask);
 		executorService.submit(grouponRulesCallableTask);
 
 		Map<String, Object> data = new HashMap<>();
@@ -185,7 +185,7 @@ public class WxGoodsController {
 			data.put("specificationList", objectCallableTask.get());
 			data.put("productList", productListCallableTask.get());
 			data.put("attribute", goodsAttributeListTask.get());
-			data.put("brand", brandCallableTask.get());
+			//data.put("brand", brandCallableTask.get());
 			data.put("groupon", grouponRulesCallableTask.get());
 			//SystemConfig.isAutoCreateShareImage()
 			data.put("share", SystemConfig.isAutoCreateShareImage());

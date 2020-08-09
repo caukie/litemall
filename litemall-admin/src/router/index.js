@@ -158,6 +158,26 @@ export const asyncRoutes = [
     },
     children: [
       {
+        path: 'supplier',
+        component: () => import('@/views/mall/supplier'),
+        name: 'supplier',
+        meta: {
+          perms: ['GET /admin/supplier/list', 'POST /admin/supplier/create', 'GET /admin/supplier/read', 'POST /admin/supplier/update', 'POST /admin/supplier/delete'],
+          title: '供应商',
+          noCache: true
+        }
+      },
+      {
+        path: 'supplierplatform',
+        component: () => import('@/views/mall/supplierplatform'),
+        name: 'supplierplatform',
+        meta: {
+          perms: ['GET /admin/supplierplatform/list', 'POST /admin/supplierplatform/create', 'GET /admin/supplierplatform/read', 'POST /admin/supplierplatform/update', 'POST /admin/supplierplatform/delete'],
+          title: '接入平台',
+          noCache: true
+        }
+      },
+      {
         path: 'region',
         component: () => import('@/views/mall/region'),
         name: 'region',
@@ -172,7 +192,7 @@ export const asyncRoutes = [
         name: 'brand',
         meta: {
           perms: ['GET /admin/brand/list', 'POST /admin/brand/create', 'GET /admin/brand/read', 'POST /admin/brand/update', 'POST /admin/brand/delete'],
-          title: '品牌制造商',
+          title: '品牌商',
           noCache: true
         }
       },

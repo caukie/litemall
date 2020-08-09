@@ -88,9 +88,9 @@
           <el-cascader :options="categoryList" expand-trigger="hover" clearable @change="handleCategoryChange" />
         </el-form-item>
 
-        <el-form-item label="所属品牌商">
-          <el-select v-model="goods.brandId" clearable>
-            <el-option v-for="item in brandList" :key="item.value" :label="item.label" :value="item.value" />
+        <el-form-item label="所属供应商">
+          <el-select v-model="goods.supplierId" clearable>
+            <el-option v-for="item in supplierList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
 
@@ -337,7 +337,7 @@
 </style>
 
 <script>
-import { publishGoods, listCatAndBrand } from '@/api/goods'
+import { publishGoods, listCatAndSupplier } from '@/api/goods'
 import { createStorage, uploadPath } from '@/api/storage'
 import Editor from '@tinymce/tinymce-vue'
 import { MessageBox } from 'element-ui'
@@ -354,7 +354,7 @@ export default {
       newKeyword: '',
       keywords: [],
       categoryList: [],
-      brandList: [],
+      supplierList: [],
       goods: { picUrl: '', gallery: [], isHot: false, isNew: true, isOnSale: true },
       specVisiable: false,
       specForm: { specification: '', value: '', picUrl: '' },
@@ -401,9 +401,9 @@ export default {
 
   methods: {
     init: function() {
-      listCatAndBrand().then(response => {
+      listCatAndSupplier().then(response => {
         this.categoryList = response.data.data.categoryList
-        this.brandList = response.data.data.brandList
+        this.supplierList = response.data.data.supplierList
       })
     },
     handleCategoryChange(value) {

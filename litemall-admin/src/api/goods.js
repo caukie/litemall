@@ -40,9 +40,9 @@ export function editGoods(data) {
   })
 }
 
-export function listCatAndBrand() {
+export function listCatAndSupplier() {
   return request({
-    url: '/goods/catAndBrand',
+    url: '/goods/catAndSupplier',
     method: 'get'
   })
 }

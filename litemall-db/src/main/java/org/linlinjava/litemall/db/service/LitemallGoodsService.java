@@ -88,7 +88,7 @@ public class LitemallGoodsService {
     }
 
 
-    public List<LitemallGoods> querySelective(Integer catId, Integer brandId, String keywords, Boolean isHot, Boolean isNew, Integer offset, Integer limit, String sort, String order) {
+    public List<LitemallGoods> querySelective(Integer catId, Integer supplierId, String keywords, Boolean isHot, Boolean isNew, Integer offset, Integer limit, String sort, String order) {
         LitemallGoodsExample example = new LitemallGoodsExample();
         LitemallGoodsExample.Criteria criteria1 = example.or();
         LitemallGoodsExample.Criteria criteria2 = example.or();
@@ -97,9 +97,9 @@ public class LitemallGoodsService {
             criteria1.andCategoryIdEqualTo(catId);
             criteria2.andCategoryIdEqualTo(catId);
         }
-        if (!StringUtils.isEmpty(brandId)) {
-            criteria1.andBrandIdEqualTo(brandId);
-            criteria2.andBrandIdEqualTo(brandId);
+        if (!StringUtils.isEmpty(supplierId)) {
+            criteria1.andSupplierIdEqualTo(supplierId);
+            criteria2.andSupplierIdEqualTo(supplierId);
         }
         if (!StringUtils.isEmpty(isNew)) {
             criteria1.andIsNewEqualTo(isNew);
@@ -212,14 +212,14 @@ public class LitemallGoodsService {
         return (int) goodsMapper.countByExample(example);
     }
 
-    public List<Integer> getCatIds(Integer brandId, String keywords, Boolean isHot, Boolean isNew) {
+    public List<Integer> getCatIds(Integer supplierId, String keywords, Boolean isHot, Boolean isNew) {
         LitemallGoodsExample example = new LitemallGoodsExample();
         LitemallGoodsExample.Criteria criteria1 = example.or();
         LitemallGoodsExample.Criteria criteria2 = example.or();
 
-        if (!StringUtils.isEmpty(brandId)) {
-            criteria1.andBrandIdEqualTo(brandId);
-            criteria2.andBrandIdEqualTo(brandId);
+        if (!StringUtils.isEmpty(supplierId)) {
+            criteria1.andSupplierIdEqualTo(supplierId);
+            criteria2.andSupplierIdEqualTo(supplierId);
         }
         if (!StringUtils.isEmpty(isNew)) {
             criteria1.andIsNewEqualTo(isNew);
